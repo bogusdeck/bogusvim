@@ -2,6 +2,7 @@
 require("config.lazy")
 require("config.dashboard")
 require("config.neo-tree")
-require("config.snack")  
+require("config.snack")
+require("config.nvim-tree")
 
 vim.cmd.colorscheme("tokyonight")
