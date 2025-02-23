@@ -17,20 +17,27 @@ M.colors = {
 M.setup = function()
   local c = M.colors
 
-  -- Apply base theme colors
-  vim.cmd("highlight Normal guibg=" .. c.base)
-  vim.cmd("highlight Comment guifg=" .. c.subtext1 .. " gui=italic")
-  vim.cmd("highlight Keyword guifg=" .. c.overlay2)
-  vim.cmd("highlight Function guifg=" .. c.surface1)
-  vim.cmd("highlight String guifg=" .. c.overlay0)
+  -- Apply base theme colors with safer string formatting
+  vim.cmd(string.format("highlight Normal guibg=%s", c.base))
+  vim.cmd(string.format("highlight NormalFloat guibg=%s guifg=%s", c.mantle, c.subtext1))
+  vim.cmd(string.format("highlight FloatBorder guibg=%s guifg=%s", c.mantle, c.overlay2))
 
-  -- Global UI component highlights
-  vim.cmd("highlight StatusLine guifg=" .. c.crust .. " guibg=" .. c.base)
-  vim.cmd("highlight StatusLineNC guifg=" .. c.subtext0 .. " guibg=" .. c.mantle)
-  vim.cmd("highlight TabLine guifg=" .. c.subtext1 .. " guibg=" .. c.surface0)
-  vim.cmd("highlight TabLineSel guifg=" .. c.overlay2 .. " guibg=" .. c.base)
-  vim.cmd("highlight Pmenu guibg=" .. c.surface1 .. " guifg=" .. c.subtext0)
-  vim.cmd("highlight PmenuSel guibg=" .. c.overlay1 .. " guifg=" .. c.base)
+  -- Explicitly override Pmenu to avoid pink background
+  vim.cmd(string.format("highlight Pmenu guibg=%s guifg=%s", c.mantle, c.subtext1))
+  vim.cmd(string.format("highlight PmenuSel guibg=%s guifg=%s", c.surface2, c.base))
+  vim.cmd(string.format("highlight PmenuBorder guibg=%s guifg=%s", c.mantle, c.overlay2))
+
+  -- Noice.nvim Fix
+  vim.cmd(string.format("highlight NoiceCmdlinePopup guibg=%s guifg=%s", c.mantle, c.subtext1))
+  vim.cmd(string.format("highlight NoiceCmdlinePopupBorder guibg=%s guifg=%s", c.mantle, c.overlay2))
+  vim.cmd(string.format("highlight NoicePopup guibg=%s guifg=%s", c.mantle, c.subtext1))
+  vim.cmd(string.format("highlight NoicePopupBorder guibg=%s guifg=%s", c.mantle, c.overlay2))
+  vim.cmd(string.format("highlight NoiceConfirm guibg=%s guifg=%s", c.surface2, c.subtext0))
+
+  -- WhichKey Fix
+  vim.cmd(string.format("highlight WhichKey guibg=%s guifg=%s", c.mantle, c.subtext1))
+  vim.cmd(string.format("highlight WhichKeyBorder guibg=%s guifg=%s", c.mantle, c.overlay2))
+  vim.cmd(string.format("highlight WhichKeyFloat guibg=%s guifg=%s", c.mantle, c.overlay2))
 end
 
 return M
