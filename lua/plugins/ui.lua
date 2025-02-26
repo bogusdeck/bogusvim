@@ -104,7 +104,6 @@ return {
 			},
 		},
 	},
-  
   {
   "utilyre/barbecue.nvim",
 		name = "barbecue",
@@ -128,81 +127,94 @@ return {
 	-- 		}
 	-- 	end,
 	-- },
-      {
-        "folke/noice.nvim",
-        event = "VeryLazy",
-        config = function()
-            require("noice").setup({
-                cmdline = {
-                    enabled = true, -- Enable the command-line UI
-                    view = "cmdline_popup", -- Use a popup for commands
-                    format = {
-                        cmdline = { icon = "" }, -- Change the command icon
-                        search_down = { icon = "🔍⌄" },
-                        search_up = { icon = "🔍⌃" },
-                        filter = { icon = "$" },
-                        lua = { icon = "" },
-                        help = { icon = "?" },
-                    },
-                },
-                messages = {
-                    enabled = true, -- Enables the message UI
-                    view = "mini", -- Use mini popups instead of default
-                },
-                popupmenu = {
-                    enabled = true, -- Enable popup menu
-                    backend = "nui",
-                },
-                lsp = {
-                    progress = { enabled = true }, -- Show LSP progress
-                    hover = { enabled = true },
-                    signature = { enabled = true },
-                },
-                notify = {
-                    enabled = true, -- Use Noice for notifications
-                    view = "notify",
-                },
-                views = {
-                    cmdline_popup = {
-                        position = {
-                            row = 10,
-                            col = "50%",
-                        },
-                        size = {
-                            width = 60,
-                            height = "auto",
-                        },
-                        border = {
-                            style = "rounded",
-                            padding = { 0, 1 },
-                        },
-                        win_options = {
-                            winblend = 10,
-                            winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
-                        },
-                    },
-                },
-                routes = {
-                    {
-                        filter = { event = "msg_showmode" },
-                        view = "mini",
-                    },
-                },
-                presets = {
-                    bottom_search = false, -- Disable bottom search UI
-                    command_palette = true, -- Use Noice for command input
-                    long_message_to_split = true, -- Split long messages in a separate window
-                    inc_rename = false, -- If you use `inc-rename.nvim`, disable this
-                    lsp_doc_border = true, -- Add border to LSP documentation
-                },
-            })
-        end,
-        dependencies = {
-            "MunifTanjim/nui.nvim",
-            "rcarriga/nvim-notify", -- Needed for pop-up notifications
-        },
-    },    
+    --   {
+    --     "folke/noice.nvim",
+    --     event = "VeryLazy",
+    --     config = function()
+    --         require("noice").setup({
+    --             cmdline = {
+    --                 enabled = true, -- Enable the command-line UI
+    --                 view = "cmdline_popup", -- Use a popup for commands
+    --                 format = {
+    --                     cmdline = { icon = "" }, -- Change the command icon
+    --                     search_down = { icon = "🔍⌄" },
+    --                     search_up = { icon = "🔍⌃" },
+    --                     filter = { icon = "$" },
+    --                     lua = { icon = "" },
+    --                     help = { icon = "?" },
+    --                 },
+    --             },
+    --             messages = {
+    --                 enabled = true, -- Enables the message UI
+    --                 view = "mini", -- Use mini popups instead of default
+    --             },
+    --             popupmenu = {
+    --                 enabled = true, -- Enable popup menu
+    --                 backend = "nui",
+    --             },
+    --             lsp = {
+    --                 progress = { enabled = true }, -- Show LSP progress
+    --                 hover = { enabled = true },
+    --                 signature = { enabled = true },
+    --             },
+    --             notify = {
+    --                 enabled = true, -- Use Noice for notifications
+    --                 view = "notify",
+    --             },
+    --             views = {
+    --                 cmdline_popup = {
+    --                     position = {
+    --                         row = 10,
+    --                         col = "50%",
+    --                     },
+    --                     size = {
+    --                         width = 60,
+    --                         height = "auto",
+    --                     },
+    --                     border = {
+    --                         style = "rounded",
+    --                         padding = { 0, 1 },
+    --                     },
+    --                     win_options = {
+    --                         winblend = 10,
+    --                         winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+    --                     },
+    --                 },
+    --             },
+    --             routes = {
+    --                 {
+    --                     filter = { event = "msg_showmode" },
+    --                     view = "mini",
+    --                 },
+    --             },
+    --             presets = {
+    --                 bottom_search = false, -- Disable bottom search UI
+    --                 command_palette = true, -- Use Noice for command input
+    --                 long_message_to_split = true, -- Split long messages in a separate window
+    --                 inc_rename = false, -- If you use `inc-rename.nvim`, disable this
+    --                 lsp_doc_border = true, -- Add border to LSP documentation
+    --             },
+    --         })
+    --     end,
+    --     dependencies = {
+    --         "MunifTanjim/nui.nvim",
+    --         "rcarriga/nvim-notify", -- Needed for pop-up notifications
+    --     },
+    -- },    
     {
+      "echasnovski/mini.notify",
+      version = false,
+      config = function()
+          require("mini.notify").setup({
+              content_format = function(notif)
+                  return notif.msg
+              end,
+              duration = 3000,
+              background_colour = "#061115",
+          })
+      end,
+  },
+  {
       "folke/which-key.nvim",
       event = "VeryLazy",
       config = function()
