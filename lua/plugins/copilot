@@ -1,0 +1,19 @@
+return {
+  "zbirenbaum/copilot.lua",
+  cmd = "Copilot",
+  event = "InsertEnter",
+  opts = {
+    panel = { enabled = false }, -- Disable Copilot panel (optional)
+    suggestion = {
+      enabled = true,
+      auto_trigger = true, -- Show suggestions automatically
+      debounce = 75,
+      keymap = {
+        accept = "<Tab>",  -- Accept suggestion
+        next = "<C-n>",    -- Next suggestion
+        prev = "<C-p>",    -- Previous suggestion
+        dismiss = "<C-]>", -- Dismiss suggestion
+      },
+    },
+  },
+}
