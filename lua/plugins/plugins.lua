@@ -189,6 +189,24 @@ return {
     end,
   },
 
+  -- Bufferline for tab management
+  {
+    "akinsho/bufferline.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("bufferline").setup({
+        options = {
+          numbers = "ordinal", -- Show tab numbers
+          diagnostics = "nvim_lsp",
+          separator_style = "slant",
+          show_buffer_close_icons = false,
+          show_close_icon = false,
+          always_show_bufferline = true,
+        },
+      })
+    end,
+  },
+
   -- use mini.starter instead of alpha
   { import = "lazyvim.plugins.extras.ui.mini-starter" },
 

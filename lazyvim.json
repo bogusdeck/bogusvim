@@ -1,7 +1,9 @@
 {
   "extras": [
+    "lazyvim.plugins.extras.ai.codeium",
     "lazyvim.plugins.extras.ai.copilot",
     "lazyvim.plugins.extras.coding.yanky",
+    "lazyvim.plugins.extras.lang.angular",
     "lazyvim.plugins.extras.lang.python"
   ],
   "install_version": 8,
