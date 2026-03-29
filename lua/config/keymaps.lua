@@ -12,9 +12,10 @@ vim.keymap.set("n", "<leader>bn", ":BufferLineMoveNext<CR>", { desc = "Move buff
 
 -- Close buffer
 vim.keymap.set("n", "<leader>bd", ":bdelete<CR>", { desc = "Close buffer" })
+vim.keymap.set("n", "<D-w>", ":bdelete<CR>", { desc = "Close buffer", noremap = true, silent = true })
 
 --  Select All (Like Ctrl+A in VS Code)
-vim.keymap.set("n", "<C-a>", "ggVG", { desc = "Select all", noremap = true, silent = true })
+vim.keymap.set("n", "<D-a>", "ggVG", { desc = "Select all", noremap = true, silent = true })
 
 --  Copy Current Line Below (Like Shift+Alt+↓ in VS Code)
 vim.keymap.set("n", "<S-A-j>", "yyp", { desc = "Copy line below", noremap = true, silent = true })
@@ -27,6 +28,24 @@ vim.keymap.set("n", "<A-j>", ":m .+1<CR>==", { desc = "Move line down", noremap 
 
 --  Move Line Up (Like Alt+↑ in VS Code)
 vim.keymap.set("n", "<A-k>", ":m .-2<CR>==", { desc = "Move line up", noremap = true, silent = true })
+
+-- Move word forward with Option+Right Arrow
+vim.keymap.set("n", "<A-Right>", "w", { desc = "Move word forward", noremap = true, silent = true })
+vim.keymap.set("i", "<A-Right>", "<C-o>w", { desc = "Move word forward", noremap = true, silent = true })
+vim.keymap.set("v", "<A-Right>", "w", { desc = "Move word forward", noremap = true, silent = true })
+
+-- Move word backward with Option+Left Arrow
+vim.keymap.set("n", "<A-Left>", "b", { desc = "Move word backward", noremap = true, silent = true })
+vim.keymap.set("i", "<A-Left>", "<C-o>b", { desc = "Move word backward", noremap = true, silent = true })
+vim.keymap.set("v", "<A-Left>", "b", { desc = "Move word backward", noremap = true, silent = true })
+
+-- Search in current file with Cmd+F
+vim.keymap.set("n", "<D-f>", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "Search in file", noremap = true, silent = true })
+vim.keymap.set("v", "<D-f>", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "Search in file", noremap = true, silent = true })
+
+-- Global search in project with Cmd+Shift+F
+vim.keymap.set("n", "<D-F>", "<cmd>Telescope live_grep<CR>", { desc = "Search in project", noremap = true, silent = true })
+vim.keymap.set("v", "<D-F>", "<cmd>Telescope live_grep<CR>", { desc = "Search in project", noremap = true, silent = true })
 
 -- Add this somewhere in your keymaps file
 vim.keymap.set("n", "<leader>hs", function()
