@@ -1,7 +1,10 @@
 -- bootstrap lazy.nvim, LazyVim and your plugins
 require("config.lazy")
 require("custom.spotify")
-vim.cmd("autocmd VimEnter * Dashboard")
+require("custom.ai-toggle").setup()
+if vim.env.NVIM_CODEMAP ~= "1" then
+  vim.cmd("autocmd VimEnter * Dashboard")
+end
 
 -- Disable auto format on save
 vim.g.autoformat = false
@@ -30,3 +33,11 @@ vim.cmd([[
   cabbrev wq Wq
   cabbrev wqa Wqa
 ]])
+
+
+-- Move current line or selection up/down using Leader key
+-- Press Space + k to move up, Space + j to move down
+vim.keymap.set('n', '<leader>k', ':mcao<CR>gv=gv', { silent = true })
+vim.keymap.set('n', '<leader>j', ':mca+2<CR>gv=gv', { silent = true })
+vim.keymap.set('v', '<leader>k', ':m\'< -2<CR>gv=gv', { silent = true })
+vim.keymap.set('v', '<leader>j', ':m\'> +2<CR>gv=gv', { silent = true })

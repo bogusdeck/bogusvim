@@ -3,8 +3,27 @@
 -- Add any additional keymaps here
 
 -- Navigate between tabs using Bufferline
-vim.keymap.set("n", "<Tab>", ":BufferLineCycleNext<CR>", { desc = "Next Tab" })
-vim.keymap.set("n", "<S-Tab>", ":BufferLineCyclePrev<CR>", { desc = "Previous Tab" })
+local function next_buffer()
+  if vim.fn.exists(":BufferLineCycleNext") == 2 then
+    vim.cmd.BufferLineCycleNext()
+  else
+    vim.cmd.bnext()
+  end
+end
+
+local function prev_buffer()
+  if vim.fn.exists(":BufferLineCyclePrev") == 2 then
+    vim.cmd.BufferLineCyclePrev()
+  else
+    vim.cmd.bprevious()
+  end
+end
+
+vim.keymap.set({ "n", "i" }, "<A-Tab>", next_buffer, { desc = "Next Tab", silent = true })
+vim.keymap.set({ "n", "i" }, "<M-Tab>", next_buffer, { desc = "Next Tab", silent = true })
+vim.keymap.set("n", "<Esc><Tab>", next_buffer, { desc = "Next Tab", silent = true })
+vim.keymap.set({ "n", "i" }, "<A-S-Tab>", prev_buffer, { desc = "Previous Tab", silent = true })
+vim.keymap.set({ "n", "i" }, "<M-S-Tab>", prev_buffer, { desc = "Previous Tab", silent = true })
 
 -- Move buffers left/right
 vim.keymap.set("n", "<leader>bp", ":BufferLineMovePrev<CR>", { desc = "Move buffer left" })
@@ -51,3 +70,9 @@ vim.keymap.set("v", "<D-F>", "<cmd>Telescope live_grep<CR>", { desc = "Search in
 vim.keymap.set("n", "<leader>hs", function()
   require("custom.source-control").open_hg_changes()
 end, { desc = "Show Mercurial changes" })
+
+vim.keymap.set("n", "<leader>ua", function()
+  require("custom.ai-toggle").toggle()
+end, { desc = "Toggle AI Suggestions" })
+
+vim.keymap.set("n", "<leader>ll", "<cmd>Leet<CR>", { desc = "Open LeetCode" })

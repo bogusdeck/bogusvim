@@ -4,6 +4,7 @@ return {
     projects = { -- define project roots
       "~/projects/*",
       "~/.config/*",
+      "/Users/bogusdeck/instahyre/devel/",
     },
     picker = {
       type = "telescope", -- one of "telescope", "fzf-lua", or "snacks"
