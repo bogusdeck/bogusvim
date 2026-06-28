@@ -124,6 +124,7 @@ return {
           })
         end, 250)
       end
+      dap.adapters.delve = dap.adapters.go
       dap.configurations.go = {
         {
           type = "go",

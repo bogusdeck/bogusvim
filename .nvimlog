@@ -1,0 +1,4 @@
+WRN 2026-06-24T21:00:04.192 ?.76050    server_start:193: Failed to start server: operation not permitted: /var/folders/45/cn002k1907d40bv8htzl14k40000gp/T/nvim.bogusdeck/UM88nX/nvim.76050.0
+WRN 2026-06-24T21:00:42.099 ?.76256    server_start:193: Failed to start server: operation not permitted: /var/folders/45/cn002k1907d40bv8htzl14k40000gp/T/nvim.bogusdeck/0OdN1n/nvim.76256.0
+WRN 2026-06-24T21:00:42.099 ?.76257    server_start:193: Failed to start server: operation not permitted: /var/folders/45/cn002k1907d40bv8htzl14k40000gp/T/nvim.bogusdeck/qUq5F7/nvim.76257.0
+WRN 2026-06-25T08:18:32.396 ?.3224     server_start:193: Failed to start server: operation not permitted: /var/folders/45/cn002k1907d40bv8htzl14k40000gp/T/nvim.bogusdeck/kLtMH6/nvim.3224.0

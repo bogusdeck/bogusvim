@@ -19,11 +19,33 @@ local function prev_buffer()
   end
 end
 
-vim.keymap.set({ "n", "i" }, "<A-Tab>", next_buffer, { desc = "Next Tab", silent = true })
-vim.keymap.set({ "n", "i" }, "<M-Tab>", next_buffer, { desc = "Next Tab", silent = true })
-vim.keymap.set("n", "<Esc><Tab>", next_buffer, { desc = "Next Tab", silent = true })
-vim.keymap.set({ "n", "i" }, "<A-S-Tab>", prev_buffer, { desc = "Previous Tab", silent = true })
-vim.keymap.set({ "n", "i" }, "<M-S-Tab>", prev_buffer, { desc = "Previous Tab", silent = true })
+local function term_next_buffer()
+  vim.cmd.stopinsert()
+  next_buffer()
+end
+
+local function term_prev_buffer()
+  vim.cmd.stopinsert()
+  prev_buffer()
+end
+
+vim.keymap.set({ "n", "i", "v", "s" }, "<A-Tab>", next_buffer, { desc = "Next Tab", silent = true })
+vim.keymap.set({ "n", "i", "v", "s" }, "<M-Tab>", next_buffer, { desc = "Next Tab", silent = true })
+vim.keymap.set({ "n", "i", "v", "s" }, "<Esc><Tab>", next_buffer, { desc = "Next Tab", silent = true })
+vim.keymap.set("t", "<A-Tab>", term_next_buffer, { desc = "Next Tab", silent = true })
+vim.keymap.set("t", "<M-Tab>", term_next_buffer, { desc = "Next Tab", silent = true })
+vim.keymap.set("t", "<Esc><Tab>", term_next_buffer, { desc = "Next Tab", silent = true })
+
+vim.keymap.set({ "n", "i", "v", "s" }, "<A-S-Tab>", prev_buffer, { desc = "Previous Tab", silent = true })
+vim.keymap.set({ "n", "i", "v", "s" }, "<M-S-Tab>", prev_buffer, { desc = "Previous Tab", silent = true })
+vim.keymap.set({ "n", "i", "v", "s" }, "<S-Tab>", prev_buffer, { desc = "Previous Tab", silent = true })
+vim.keymap.set({ "n", "i", "v", "s" }, "<Esc><S-Tab>", prev_buffer, { desc = "Previous Tab", silent = true })
+vim.keymap.set({ "n", "i", "v", "s" }, "<Esc>[Z", prev_buffer, { desc = "Previous Tab", silent = true })
+vim.keymap.set("t", "<A-S-Tab>", term_prev_buffer, { desc = "Previous Tab", silent = true })
+vim.keymap.set("t", "<M-S-Tab>", term_prev_buffer, { desc = "Previous Tab", silent = true })
+vim.keymap.set("t", "<S-Tab>", term_prev_buffer, { desc = "Previous Tab", silent = true })
+vim.keymap.set("t", "<Esc><S-Tab>", term_prev_buffer, { desc = "Previous Tab", silent = true })
+vim.keymap.set("t", "<Esc>[Z", term_prev_buffer, { desc = "Previous Tab", silent = true })
 
 -- Move buffers left/right
 vim.keymap.set("n", "<leader>bp", ":BufferLineMovePrev<CR>", { desc = "Move buffer left" })

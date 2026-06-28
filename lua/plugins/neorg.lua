@@ -4,6 +4,15 @@ return {
     lazy = false,
     version = "*",
     dependencies = { "nvim-lua/plenary.nvim" },
+    init = function()
+      local parser_path = vim.fn.expand(
+        "~/.local/share/nvim/lazy-rocks/tree-sitter-norg/lib/lua/5.1/parser/norg.so"
+      )
+
+      if vim.fn.filereadable(parser_path) == 1 then
+        vim.treesitter.language.add("norg", { path = parser_path })
+      end
+    end,
     keys = {
       { "<leader>nn", "<Plug>(neorg.dirman.new-note)", desc = "Neorg New Note" },
       { "<leader>ni", "<cmd>Neorg index<CR>", desc = "Neorg Index" },
