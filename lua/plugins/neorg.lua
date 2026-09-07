@@ -4,13 +4,19 @@ return {
     lazy = false,
     version = "*",
     dependencies = { "nvim-lua/plenary.nvim" },
-    init = function()
+init = function()
       local parser_path = vim.fn.expand(
         "~/.local/share/nvim/lazy-rocks/tree-sitter-norg/lib/lua/5.1/parser/norg.so"
+      )
+      local meta_parser_path = vim.fn.expand(
+        "~/.local/share/nvim/lazy-rocks/tree-sitter-norg-meta/lib/lua/5.1/parser/norg_meta.so"
       )
 
       if vim.fn.filereadable(parser_path) == 1 then
         vim.treesitter.language.add("norg", { path = parser_path })
+      end
+      if vim.fn.filereadable(meta_parser_path) == 1 then
+        vim.treesitter.language.add("norg_meta", { path = meta_parser_path })
       end
     end,
     keys = {
@@ -34,14 +40,5 @@ return {
         },
       },
     },
-  },
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = function(_, opts)
-      opts.ensure_installed = opts.ensure_installed or {}
-      if not vim.tbl_contains(opts.ensure_installed, "norg") then
-        table.insert(opts.ensure_installed, "norg")
-      end
-    end,
   },
 }

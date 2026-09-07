@@ -1,7 +1,8 @@
 
--- Disable Copilot by default
-vim.g.copilot_enabled = 0
-
 return {
-    "github/copilot.vim",
+  "github/copilot.vim",
+  event = "InsertEnter",
+  config = function()
+    vim.g.copilot_enabled = 0
+  end,
 }

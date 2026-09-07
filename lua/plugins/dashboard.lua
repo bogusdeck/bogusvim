@@ -1,17 +1,36 @@
 return {
     "nvimdev/dashboard-nvim",
+    enabled = true,
     lazy = false, -- As https://github.com/nvimdev/dashboard-nvim/pull/450, dashboard-nvim shouldn't be lazy-loaded to properly handle stdin.
     opts = function()
-      local logo = [[
-██████╗  ██████╗  ██████╗ ██╗   ██╗███████╗██████╗ ███████╗ ██████╗██╗  ██╗
-██╔══██╗██╔═══██╗██╔════╝ ██║   ██║██╔════╝██╔══██╗██╔════╝██╔════╝██║ ██╔╝
-██████╔╝██║   ██║██║  ███╗██║   ██║███████╗██║  ██║█████╗  ██║     █████╔╝
-██╔══██╗██║   ██║██║   ██║██║   ██║╚════██║██║  ██║██╔══╝  ██║     ██╔═██╗
-██████╔╝╚██████╔╝╚██████╔╝╚██████╔╝███████║██████╔╝███████╗╚██████╗██║  ██╗
-╚═════╝  ╚═════╝  ╚═════╝  ╚═════╝ ╚══════╝╚═════╝ ╚══════╝ ╚═════╝╚═╝  ╚═╝
-      ]]
+      -- ASCII art logo - each line is exactly 58 chars wide
+      local logo_lines = {
+        "██████╗  ██████╗  ██████╗ ██╗   ██╗███████╗██████╗ ███████╗ ██████╗██╗  ██╗",
+        "██╔══██╗██╔═══██╗██╔════╝ ██║   ██║██╔════╝██╔══██╗██╔════╝██╔════╝██║ ██╔╝",
+        "██████╔╝██║   ██║██║  ███╗██║   ██║███████╗██║  ██║█████╗  ██║     █████╔╝",
+        "██╔══██╗██║   ██║██║   ██║██║   ██║╚════██║██║  ██║██╔══╝  ██║     ██╔═██╗",
+        "██████╔╝╚██████╔╝╚██████╔╝╚██████╔╝███████║██████╔╝███████╗╚██████╗██║  ██╗",
+        "╚═════╝  ╚═════╝  ╚═════╝  ╚═════╝ ╚══════╝╚═════╝ ╚══════╝ ╚═════╝╚═╝  ╚═╝",
+      }
 
-      logo = string.rep("\n", 8) .. logo .. "\n\n"
+      -- Dynamically center logo based on terminal width and height
+      local term_width = vim.o.columns
+      local term_height = vim.o.lines
+      local logo_width = 58 -- width of each logo line
+      local logo_height = #logo_lines
+      
+      -- Calculate horizontal padding (center the logo)
+      local h_padding = math.max(2, math.floor((term_width - logo_width) / 2))
+      
+      -- Calculate vertical padding (place logo roughly 1/3 from top)
+      local top_padding = math.max(3, math.floor((term_height - logo_height) / 3))
+      
+      -- Build the final logo string with dynamic padding
+      local logo = string.rep("\n", top_padding)
+      for _, line in ipairs(logo_lines) do
+        logo = logo .. string.rep(" ", h_padding) .. line .. "\n"
+      end
+      logo = logo .. "\n"
 
       local opts = {
         theme = "doom",

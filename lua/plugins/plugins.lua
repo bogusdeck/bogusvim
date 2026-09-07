@@ -1,7 +1,3 @@
--- since this is just an example spec, don't actually load anything here and return an empty spec
--- stylua: ignore
-if true then return {} end
-
 -- every spec file under the "plugins" directory will be loaded automatically by lazy.nvim
 --
 -- In your plugin files, you can:
@@ -22,24 +18,14 @@ return {
   --     vim.cmd("colorscheme carbonfox")
   --   end,
   -- },
-  -- Configure LazyVim to load gruvbox
+  -- Configure LazyVim colorscheme
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "default",
+      colorscheme = "github_dark_default",
       dashboard = false,
     },
   },
-
-  -- change trouble config
-  {
-    "folke/trouble.nvim",
-    -- opts will be merged with the parent spec
-    opts = { use_diagnostic_signs = true },
-  },
-
-  -- disable trouble
-  { "folke/trouble.nvim", enabled = false },
 
   -- override nvim-cmp and add cmp-emoji
   {
@@ -77,7 +63,7 @@ return {
       { "<leader>fw", "<cmd>Telescope live_grep<CR>", desc = "Find Word" },
       { "<leader>fs", "<cmd>Telescope lsp_document_symbols<CR>", desc = "Find Symbols" },
       { "<leader>fp", "<cmd>lua require('telescope').extensions.projects.projects{}<CR>", desc = "Projects" },
-   },
+    },
     -- change some options
     opts = {
       defaults = {
@@ -88,45 +74,6 @@ return {
       },
     },
   },
-
-  -- add tsserver and setup with typescript.nvim instead of lspconfig
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      "jose-elias-alvarez/typescript.nvim",
-      init = function()
-        require("lazyvim.util").lsp.on_attach(function(_, buffer)
-          -- stylua: ignore
-          vim.keymap.set( "n", "<leader>co", "TypescriptOrganizeImports", { buffer = buffer, desc = "Organize Imports" })
-          vim.keymap.set("n", "<leader>cR", "TypescriptRenameFile", { desc = "Rename File", buffer = buffer })
-        end)
-      end,
-    },
-    ---@class PluginLspOpts
-    opts = {
-      ---@type lspconfig.options
-      servers = {
-        -- tsserver will be automatically installed with mason and loaded with lspconfig
-        tsserver = {},
-      },
-      -- you can do any additional lsp server setup here
-      -- return true if you don't want this server to be setup with lspconfig
-      ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
-      setup = {
-        -- example to setup with typescript.nvim
-        tsserver = function(_, opts)
-          require("typescript").setup({ server = opts })
-          return true
-        end,
-        -- Specify * to use this function as a fallback for any server
-        -- ["*"] = function(server, opts) end,
-      },
-    },
-  },
-
-  -- for typescript, LazyVim also includes extra specs to properly setup lspconfig,
-  -- treesitter, mason and typescript.nvim. So instead of the above, you can use:
-  { import = "lazyvim.plugins.extras.lang.typescript" },
 
   -- add more treesitter parsers
   {
@@ -157,10 +104,22 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     opts = function(_, opts)
-      -- add tsx and treesitter
       vim.list_extend(opts.ensure_installed, {
         "tsx",
         "typescript",
+        "go",
+        "gomod",
+        "gosum",
+        "gowork",
+        "python",
+        "html",
+        "css",
+        "javascript",
+        "json",
+        "jsonc",
+        "yaml",
+        "markdown",
+        "markdown_inline",
       })
     end,
   },
@@ -184,31 +143,76 @@ return {
     event = "VeryLazy",
     opts = function()
       return {
-          options = { theme = 'github_dark'}
+          options = { theme = 'auto'}
       }
     end,
   },
 
-  -- Bufferline for tab management
+  -- Bufferline for tab management (VS Code-like tabs)
   {
     "akinsho/bufferline.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       require("bufferline").setup({
         options = {
-          numbers = "ordinal", -- Show tab numbers
+          numbers = "ordinal",
           diagnostics = "nvim_lsp",
-          separator_style = "slant",
+          separator_style = "thin",
           show_buffer_close_icons = false,
           show_close_icon = false,
+          show_tab_indicators = true,
           always_show_bufferline = true,
+          enforce_regular_bg = true,
+          hover = {
+            enabled = true,
+            delay = 0,
+            reveal = { "close" },
+          },
+          -- VS Code-like behavior: click to switch, drag to reorder
+          movable = true,
+          right_click_command = "vertical wincmd L", -- Right-click opens in vertical split
+          middle_click_command = "bdelete", -- Middle-click closes buffer
+        },
+        highlights = {
+          background = {
+            bg = "#1f1f1f",
+          },
+          tab_selected = {
+            bg = "#0e63d2",
+            fg = "#ffffff",
+            bold = true,
+          },
+          tab_close = {
+            fg = "#f0f0f0",
+          },
+          close_button = {
+            fg = "#f0f0f0",
+          },
+          buffer_selected = {
+            bg = "#1f1f1f",
+            fg = "#ffffff",
+            bold = true,
+          },
+          indicator_selected = {
+            fg = "#4ec9b0",
+            icon = "▊",
+          },
         },
       })
     end,
   },
 
+  -- Re-enable trouble since LazyVim depends on it
+  {
+    "folke/trouble.nvim",
+    enabled = true,
+    opts = {
+      use_diagnostic_signs = true,
+    },
+  },
+
   -- use mini.starter instead of alpha
-  { import = "lazyvim.plugins.extras.ui.mini-starter" },
+  { import = "lazyvim.plugins.extras.ui.mini-starter", enabled = false },
 
   -- add jsonls and schemastore packages, and setup treesitter for json, json5 and jsonc
   { import = "lazyvim.plugins.extras.lang.json" },
@@ -216,10 +220,34 @@ return {
   -- add any tools you want to have installed below
   -- tools installation (via Mason)
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     opts = {
       ensure_installed = {
         "pylint", -- linter
+        -- Go
+        "gopls",
+        "gofumpt",
+        "goimports",
+        "golangci-lint",
+        -- Python
+        "basedpyright",
+        "ruff",
+        "black",
+        "isort",
+        "mypy",
+        -- JavaScript/TypeScript/React/Next.js/Node
+        "typescript-language-server",
+        "eslint-lsp",
+        "prettier",
+        "biome",
+        -- HTML/CSS (for React/Next.js)
+        "html-lsp",
+        "css-lsp",
+        "tailwindcss-language-server",
+        "emmet-ls",
+        -- JSON/YAML
+        "json-lsp",
+        "yaml-language-server",
       },
     },
   },
@@ -230,6 +258,100 @@ return {
     opts = {
       servers = {
         pyright = false, -- 🚫 disable pyright
+        -- Go
+        gopls = {
+          settings = {
+            gopls = {
+              analyses = {
+                unusedparams = true,
+                shadow = true,
+              },
+              staticcheck = true,
+              gofumpt = true,
+            },
+          },
+        },
+        -- Python (using basedpyright + ruff)
+        basedpyright = {
+          settings = {
+            basedpyright = {
+              analysis = {
+                typeCheckingMode = "basic",
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode = "workspace",
+              },
+            },
+          },
+        },
+        ruff = {
+          init_options = {
+            settings = {
+              args = {},
+            },
+          },
+        },
+        -- JavaScript/TypeScript/React/Next.js/Node
+        ts_ls = {
+          settings = {
+            typescript = {
+              inlayHints = {
+                includeInlayParameterNameHints = "all",
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayEnumMemberValueHints = true,
+              },
+            },
+            javascript = {
+              inlayHints = {
+                includeInlayParameterNameHints = "all",
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayEnumMemberValueHints = true,
+              },
+            },
+          },
+        },
+        eslint = {},
+        biome = {},
+        -- HTML/CSS/Tailwind (for React/Next.js)
+        html = {},
+        cssls = {},
+        tailwindcss = {
+          settings = {
+            tailwindCSS = {
+              experimental = {
+                classRegex = {
+                  "tw`([^`]*)",
+                  "tw=\"([^\"]*)",
+                  "tw={'([^']*)'}",
+                  "className=\"([^\"]*)",
+                  "className={'([^']*)'}",
+                  "clsx\\(([^)]*)\\)",
+                  "cn\\(([^)]*)\\)",
+                },
+              },
+            },
+          },
+        },
+        emmet_ls = {
+          filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
+        },
+        -- JSON/YAML
+        jsonls = {},
+        yamlls = {
+          settings = {
+            yaml = {
+              keyOrdering = false,
+            },
+          },
+        },
       },
     },
   },

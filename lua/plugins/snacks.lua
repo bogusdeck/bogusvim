@@ -10,6 +10,26 @@ return {
         end,
         desc = "Notification History",
       },
+      -- VS Code-like explorer toggle (<C+S+E>)
+      {
+        "<leader>e",
+        function()
+          Snacks.explorer()
+        end,
+        desc = "Explorer (VSCode-like)",
+        remap = true,
+      },
+    },
+    opts = {
+      explorer = {
+        enabled = true,
+        replace_netrw = true,
+        layout = {
+          layout = {
+            position = "left",
+          },
+        },
+      },
     },
   },
 }

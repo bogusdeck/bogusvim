@@ -4,8 +4,15 @@ return {
   opts = function()
     return {
       enabled = true,
+      indent = {
+        char = "│",
+        tab_char = "│",
+      },
       scope = {
         enabled = false,
+        show_start = true,
+        show_end = false,
+        char = "│",
       },
       exclude = {
         filetypes = {
@@ -35,7 +42,7 @@ return {
       callback = function()
         vim.b.indent_blankline_enabled = false
         require("ibl").setup_buffer(0, { enabled = false })
-      end,
+      end
     })
   end,
 }
